@@ -15,28 +15,28 @@
 #endif
 
 #ifdef __mips
-#define RNAN	0xffc00000 /* Quiet NaN */
-#define DNAN0	0xfff80000 /* Signaling DP NaN Big Endian */
+#define RNAN	0xffc00000  /* Quiet NaN */
+#define DNAN0	0xfff80000  /* Signaling DP NaN Big Endian */
 #define DNAN1	0
 #endif
 
 #ifdef _PA_RISC1_1
-#define RNAN	0xffc00000 /* Quiet NaN */
-#define DNAN0	0xfff80000 /* Signaling DP NaN Big Endian */
+#define RNAN	0xffc00000   /* Quiet NaN */
+#define DNAN0	0xfff80000   /* Signaling DP NaN Big Endian */
 #define DNAN1	0
 #endif
 
 /* Everything else .... */
 
 #ifndef RNAN
-#define RNAN	0xff800001 /* Signaling Real NaN */
+#define RNAN	0xff800001   /* Signaling Real NaN */  
 
-#ifdef IEEE_MC68k /* Set also on PPC */
-#define DNAN0	0xfff00000 /* Quiet Big Endian MSB, LSB */
+#ifdef IEEE_MC68k            /* Set also on PPC */
+#define DNAN0	0xfff00000   /* Quiet Big Endian MSB, LSB */ 
 #define DNAN1	1
 #else
-#define DNAN0	1 /* LSB, MSB -- for little endian machines */
-#define DNAN1	0xfff00000 /* Quiet Double NaN */
+#define DNAN0	1            /* LSB, MSB  -- for little endian machines */
+#define DNAN1	0xfff00000   /* Quiet Double NaN */
 #endif
 #endif /*RNAN*/
 
@@ -62,9 +62,9 @@ double _0 = 0.;
 
 void unsupported_error()
 {
-      fprintf(stderr,"Runtime Error: Your Architecture is not supported by the"
-                     " -trapuv option of f2c\n");
-      exit(-1);
+	fprintf(stderr,"Runtime Error: Your Architecture is not supported by the"
+		" -trapuv option of f2c\n");
+	exit(-1);
 }
 
 void
@@ -122,7 +122,7 @@ _uninit_f2c(void *x, int type, long len)
 		lx = (unsigned Long*)x;
 		lxe = lx + len;
 		while(lx < lxe)
-			*lx++ = FA7UL;
+			*lx++ = FA7UL  ;
 		break;
 	  case TYCOMPLEX:
 		len *= 2;
@@ -148,9 +148,16 @@ _uninit_f2c(void *x, int type, long len)
 }
 #endif
 
-/* The rest of this code sets up the FPU appropriately
- * aparently this is IEEE mode, double precision, with
- * exception on divide by zero, overflow and invalid OP
+/* The rest of this code is architecture specific definitions 
+ * of the ieee0() function, which sets up the FPU appropriately.
+ * FIXME whoever wrote this should have provided documentation
+ * on exactly what ieee0() is supposed to do. My best guess
+ * is that it should go for IEEE mode, double precision, with
+ * some sort of exception generated on overflow, zero-divide
+ * and invalid-operation. 
+ * Also this file is a mess of architecture-specific and
+ * OS-specific #ifdefs. You have been warned.
+ * -- Peter Maydell <pmaydell@chiark.greenend.org.uk>
  */
 
 #ifndef MSpc
@@ -181,7 +188,7 @@ ieee0(Void)
 	}
 #endif /* MSpc */
 
-/* The following is SGI MIPS specific so look for IRIX
+/* This code is (I think) SGI/MIPS specific. So it looks for IRIX
  * via the __sgi flag (http://web.mit.edu/source/doc/standards)
  */
 #if defined(__mips) && defined(__sgi)	/* must link with -lfpe */
@@ -192,9 +199,9 @@ ieee0(Void)
 #include "/usr/include/sigfpe.h"	/* full pathname for lcc -N */
 #include "/usr/include/sys/fpu.h"
 
- static void
+static void
 #ifdef KR_headers
-ieeeuserhand(exception, val) unsigned exception[5]; int val[2];
+ieeeuserhand(exception,val) unsigned exception[5]; int val[2];
 #else
 ieeeuserhand(unsigned exception[5], int val[2])
 #endif
@@ -210,40 +217,48 @@ ieeeuserhand(unsigned exception[5], int val[2])
 	abort();
 }
 
- static void
-#ifdef KR_headers
-ieeeuserhand2(j) unsigned int **j;
-#else
+static void
 ieeeuserhand2(unsigned int **j)
-#endif
 {
 	fprintf(stderr,"ieee0() aborting because of confusion\n");
 	abort();
 }
 
+static int ieee_chk = 1;
+
  static void
 ieee0(Void)
 {
 	int i;
+	char *s;
+	if(getenv("NoIEEE")!=NULL)
+		ieee_chk = 0;
 	for(i=1; i<=4; i++){
 		sigfpe_[i].count = 1000;
 		sigfpe_[i].trace = 1;
 		sigfpe_[i].repls = _USER_DETERMINED;
-		}
-	sigfpe_[1].repls = _ZERO;	/* underflow */
-	handle_sigfpes( _ON,
-		_EN_UNDERFL|_EN_OVERFL|_EN_DIVZERO|_EN_INVALID,
-		ieeeuserhand,_ABORT_ON_ERROR,ieeeuserhand2);
 	}
+	sigfpe_[1].repls = _ZERO;	/* underflow */
+	if(ieee_chk){
+		if(s=getenv("ROUND_MODE")){
+			if( !isdigit(s[0]) || (i=s[0]-'0')<0 || i>3 )
+				fprintf(stderr,"bad rounding mode %s\n",s);
+			else
+				swapRM(i);
+		}
+		handle_sigfpes( _ON,
+			_EN_UNDERFL|_EN_OVERFL|_EN_DIVZERO|_EN_INVALID,
+			ieeeuserhand,_ABORT_ON_ERROR,ieeeuserhand2);
+	}
+}
 #endif /* IRIX mips */
 
-
 /*
- *  * The following is the preferred method but depends upon a GLIBC extension only
- *   * to be found in GLIBC 2.2 or later.  It is a GNU extension, not included in the
- *    * C99 extensions which allow the FP status register to be examined in a platform
- *     * independent way.  It should be used if at all possible  -- AFRB
- *      */
+ * The following is the preferred method but depends upon a GLIBC extension only
+ * to be found in GLIBC 2.2 or later.  It is a GNU extension, not included in the 
+ * C99 extensions which allow the FP status register to be examined in a platform
+ * independent way.  It should be used if at all possible  -- AFRB 
+ */
 
 #if (defined(__GLIBC__)&&(!(__GLIBC__==2&&__GLIBC_MINOR<2)&&(!__GLIBC__<2)))
 
@@ -251,17 +266,17 @@ ieee0(Void)
 #define IEEE0_done
 #include <fenv.h>
  static void
- ieee0(Void)
-    
+ieee0(Void)
 {
-        /* Clear all exception flags */
-        if (fedisableexcept(FE_ALL_EXCEPT)==-1)
-                 unsupported_error();
-            if (feenableexcept(FE_DIVBYZERO|FE_INVALID|FE_OVERFLOW)==-1)
-                     unsupported_error();
-}
+    /* Clear all exception flags */
+    if (fedisableexcept(FE_ALL_EXCEPT)==-1)
+     unsupported_error();
+    if (feenableexcept(FE_DIVBYZERO|FE_INVALID|FE_OVERFLOW)==-1) 
+     unsupported_error();
+} 
 
 #endif
+
 
 /* Many linux cases will be treated through GLIBC.  Note that modern
  * linux runs on many non-i86 plaforms and as a result the following code
@@ -270,13 +285,6 @@ ieee0(Void)
 #if (defined(__linux__)&&(!defined(IEEE0_done)))
 #define IEEE0_done
 #include "fpu_control.h"
-
-#ifdef __alpha__
-#ifndef USE_setfpucw
-#define __setfpucw(x) __fpu_control = (x)
-#endif
-#endif
-
 
 /* Not all versions of libc define _FPU_SETCW;
  * some only provide the __setfpucw() function.
@@ -292,34 +300,9 @@ ieee0(Void)
  * Enabled-when-set: M68k, ARM, MIPS, PowerPC
  * Disabled-when-set: x86, Alpha
  * The state we are after is:
- * IEEE mode, IEEE double precision, exceptions on division by zero,
- * overflow and invalid operation.
- */
-
-
-#ifdef __alpha__
-#ifndef USE_setfpucw
-#define __setfpucw(x) __fpu_control = (x)
-#endif
-#endif
-
-#ifndef _FPU_SETCW
-#undef  Can_use__setfpucw
-#define Can_use__setfpucw
-#endif
-
-
-/* The exact set of flags we want to set in the FPU control word
- * depends on the architecture.
- * Note also that whether an exception is enabled or disabled when
- * the _FPU_MASK_nn bit is set is architecture dependent!
- * Enabled-when-set: M68k, ARM, MIPS, PowerPC
- * Disabled-when-set: x86, Alpha
- * The state we are after is:
  *  IEEE mode, IEEE double precision, exceptions on division by zero,
  *  overflow and invalid operation.
  */
-
 #if (defined(__mc68000__) || defined(__mc68020__) || defined(mc68020) || defined (__mc68k__))
 /* Reported 20010705 by Alan Bain <alanb@chiark.greenend.org.uk>
  * Note that IEEE 754 IOP (illegal operation) 
@@ -371,28 +354,23 @@ which we want*/
 #define RQD_FPU_STATE (_FPU_IEEE - _FPU_EXTENDED + _FPU_DOUBLE - _FPU_MASK_IM - _FPU_MASK_ZM - _FPU_MASK_OM)
 #endif
 
-
  static void
 ieee0(Void)
 {
 #ifdef RQD_FPU_STATE
-    
 	__fpu_control = RQD_FPU_STATE;
 	_FPU_SETCW(__fpu_control);
-
-
-#else /* !_FPU_IEEE */
-
-	fprintf(stderr, "\n%s\n%s\n%s\n%s\n",
-		"WARNING:  _uninit_f2c in libf2c does not know how",
-		"to enable trapping on this system, so f2c's -trapuv",
-		"option will not detect uninitialized variables unless",
-		"you can enable trapping manually.");
-	fflush(stderr);
-
-#endif /* _FPU_IEEE */
+#else
+	/* FIXME why isn't this in the global default implementation of ieee0() at the bottom of the file? */
+	/* The following seems better than apparently supporting unitialised  
+	   value detection and not actually doing it! */
+	unsupported_error();
+#endif
 }
 #endif /* __linux__ */
+
+
+/* OSF-1 Specific Alpha Code */
 
 #if (defined(__alpha)&&defined(__osf__))
 #ifndef IEEE0_done
@@ -404,27 +382,25 @@ ieee0(Void)
 	ieee_set_fp_control(IEEE_TRAP_ENABLE_INV);
 	}
 #endif /*IEEE0_done*/
-#endif /* OSF/1 specific alpha*/
+#endif /* OSF/1 specific alpha */
 
 #ifdef __hpux
+#ifndef IEEE0_done
 #define IEEE0_done
+
 #define _INCLUDE_HPUX_SOURCE
 #include <math.h>
-
-#ifndef FP_X_INV
-#include <fenv.h>
-#define fpsetmask fesettrapenable
-#define FP_X_INV FE_INVALID
-#endif
 
  static void
 ieee0(Void)
 {
 	fpsetmask(FP_X_INV);
 	}
+#endif
 #endif /*__hpux*/
 
 #ifdef _AIX
+#ifndef IEEE0_done
 #define IEEE0_done
 #include <fptrap.h>
 
@@ -434,9 +410,14 @@ ieee0(Void)
 	fp_enable(TRP_INVALID);
 	fp_trap(FP_TRAP_SYNC);
 	}
+#endif
 #endif /*_AIX*/
 
+/* Unfortunately there is no reliably defined constants for SOLARIS systems
+ * so we shall have to leave this as stands */
+
 #ifdef __sun
+#ifndef IEEE0_done
 #define IEEE0_done
 #include <ieeefp.h>
 
@@ -445,9 +426,14 @@ ieee0(Void)
 {
 	fpsetmask(FP_X_INV);
 	}
+#endif
 #endif /*__sparc*/
 
 #ifndef IEEE0_done
  static void
-ieee0(Void) {}
+ieee0(Void) {
+/* If there isn't a suitable implementation found from among those here
+ * cause an error */
+  unsupported_error();
+}
 #endif

@@ -1,0 +1,155 @@
+#!/usr/bin/make -f
+#   -*- mode: makefile; -*-
+
+# debian.rules file - for libf2c
+
+
+package=libf2c2
+package-dev=libf2c2-dev
+prefix-dev=debian/libf2c2-dev
+prefix=debian/libf2c2
+
+arch=$(shell dpkg --print-architecture)
+dir=$(package)-$(version)
+file=$(package)_$(version)-$(debian)
+flibmajorver=2
+flibver=2.1
+
+
+# Optimization options.
+GCCOP2=-ansi -O2 -fomit-frame-pointer -mieee-fp -D_POSIX_SOURCE -DDEBIAN
+GCCOP1=-ansi -O2 -fomit-frame-pointer -D_POSIX_SOURCE -DDEBIAN
+
+## Avoid using -mieee-fp on anything other than the i386 platform
+## as it is a gcc i386 specific option
+ifeq ($(arch),i386) 
+   GCCOPT=$(GCCOP2)
+else 
+   GCCOPT=$(GCCOP1)
+endif
+
+build:
+	$(checkdir)
+
+
+        
+	if [ $(arch) == "i386" ] ;\
+           then echo "Building for i386" ;\
+        fi
+
+#alpha long makes extra-long which is incompatible 
+#with other fortran systems on alpha
+	if [ $(arch) == "alpha" ] ;\
+           then echo "Building for ALPHA" ;\
+	   sed 's/long //' f2c.h > f2c.install.h ;\
+	else \
+	 	cp f2c.h f2c.install.h ;\
+	fi
+
+## These take gcc options from GCCOPT 
+	$(MAKE) -f ./debian/make_lib INTSIZE=f2c
+	$(MAKE) -f ./debian/make_lib INTSIZE=f2c_i2
+	strip libf2c.so.2.1
+	strip libf2c_i2.so.2.1
+	touch build
+
+clean:
+	$(checkdir)
+	$(MAKE) -f ./debian/make_lib clean
+	rm -f libf2c* *.tmp __* *~
+	rm -f build build_f2c build_f2c_i2
+	rm -rf debian/libf2c2-dev 
+	rm -rf debian/libf2c2
+	rm -rf debian/*~ debian/files* debian/substvars.*
+
+binary-indep:	checkroot build
+	${checkdir}
+
+
+binary-arch: checkroot 
+	rm -rf debian/libf2c-dev
+	rm -rf debian/libf2c
+	install -d ${prefix} ${prefix}/DEBIAN
+	install -d ${prefix-dev} ${prefix-dev}/DEBIAN
+	install -d ${prefix}/usr/share/doc/${package}
+	install -d ${prefix-dev}/usr/share/doc/${package-dev}
+
+	install -c -m 0644 debian/shlibs.libf2c2 ${prefix}/DEBIAN/shlibs
+
+	install -c -m 0755 debian/postinst ${prefix}/DEBIAN
+	install -c -m 0755 debian/postrm ${prefix}/DEBIAN
+
+	install -d -m 0755             ${prefix-dev}/usr/lib
+	install -d -m 0755             ${prefix}/usr/lib
+# static libraries in -dev package
+	install -c -m 0644 libf2c.a    ${prefix-dev}/usr/lib/libf2c.a
+	install -c -m 0644 libf2c_i2.a ${prefix-dev}/usr/lib/libf2c_i2.a
+	install -d -m 0755             ${prefix-dev}/usr/include
+	install -c -m 0644 f2c.install.h   ${prefix-dev}/usr/include/f2c.h
+
+# shared libs in shared lib package
+	install -s -c -m 0644 libf2c.so.$(flibver) \
+			            ${prefix}/usr/lib/libf2c.so.$(flibver)
+	install -s -c -m 0644 libf2c_i2.so.$(flibver) \
+		                    ${prefix}/usr/lib/libf2c_i2.so.$(flibver)
+
+	(cd ${prefix}/usr/lib; ln -s libf2c.so.$(flibver) libf2c.so.$(flibmajorver); \
+	ln -s libf2c_i2.so.$(flibver) libf2c_i2.so.$(flibmajorver) )
+
+	(cd ${prefix-dev}/usr/lib; ln -sf libf2c.so.$(flibver) libf2c.so; \
+	ln -s libf2c_i2.so.$(flibver) libf2c_i2.so )
+
+	install -d -m 0755             ${prefix-dev}/usr/share/doc/$(package-dev)
+	install -d -m 0755             ${prefix}/usr/share/doc/$(package)
+	install -c -m 0644 changes     ${prefix}/usr/share/doc/$(package)/changelog
+	install -c -m 0644 changes     ${prefix-dev}/usr/share/doc/$(package-dev)/changelog
+	install -c -m 0644 libF77/README      ${prefix}/usr/share/doc/$(package)/libF77README
+	install -c -m 0644 libI77/README      ${prefix}/usr/share/doc/$(package)/libI77README
+	install -c -m 0644 libF77/README      ${prefix-dev}/usr/share/doc/$(package-dev)/libF77README
+	install -c -m 0644 libI77/README      ${prefix-dev}/usr/share/doc/$(package-dev)/libI77README
+	install -c -m 0644 debian/changelog \
+                                    ${prefix-dev}/usr/share/doc/$(package-dev)/changelog.Debian
+	install -c -m 0644 debian/changelog \
+                                    ${prefix}/usr/share/doc/$(package)/changelog.Debian
+	install -c -m 0644 debian/README.debian  \
+				    ${prefix-dev}/usr/share/doc/$(package-dev)/README.debian
+	install -c -m 0644 debian/README.debian  \
+				    ${prefix}/usr/share/doc/$(package)/README.debian
+	(cd ${prefix}/usr/share/doc/$(package); gzip -9v *)
+	(cd ${prefix-dev}/usr/share/doc/$(package-dev); gzip -9v *)
+	install -c -m 0644 debian/copyright \
+			            ${prefix-dev}/usr/share/doc/$(package-dev)/copyright
+	install -c -m 0644 debian/copyright \
+			            ${prefix}/usr/share/doc/$(package)/copyright
+
+
+	dpkg-shlibdeps -Tdebian/substvars.libf2c2 debian/libf2c2/usr/lib/*
+	dpkg-gencontrol -isp -plibf2c2-dev -Pdebian/libf2c2-dev 
+	dpkg-gencontrol -isp -plibf2c2 -Pdebian/libf2c2 -Tdebian/substvars.libf2c2
+	chown -R root.root ${prefix-dev}
+	chown -R root.root ${prefix}
+	chmod -R go-ws ${prefix-dev}
+	chmod -R go-ws ${prefix}
+	dpkg --build ${prefix-dev}  ..
+	dpkg --build ${prefix}  ..
+
+
+## Below Here is Generic
+
+define checkdir
+	test -f ./libF77/libF77.xsum
+endef
+
+binary:	binary-indep binary-arch
+
+source diff:
+	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
+
+dist:  binary source diff changes     
+
+checkroot:
+	$(checkdir)
+	test root = "`whoami`"
+
+.PHONY: binary source diff clean checkroot changes dist
+

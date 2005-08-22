@@ -1,0 +1,7 @@
+libf2c2 (20050501-1) unstable; urgency=low
+  * Initial Release after separating from f2c
+  * As per debian policy the shared libraries to support programs
+    build using f2c should not be part of the f2c package.
+
+ -- Alan Bain <afrb2@debian.org>  Mon, 22 Aug 2005 20:23:49 +0100
+ 
