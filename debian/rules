@@ -16,9 +16,27 @@ flibmajorver=2
 flibver=2.1
 
 
+export DH_COMPAT=5
+
+INSTALL = /usr/bin/install
+INSTALL_LIB = $(INSTALL) -o root -g root -m 0644
+
+CDEBUGFLAGS = -g
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+       CDEBUGFLAGS += -O0
+else
+       CDEBUGFLAGS += -O2
+endif
+
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+       INSTALL_LIB += -s
+endif
+
+
+
 # Optimization options.
-GCCOP2=-ansi -O2 -fomit-frame-pointer -mieee-fp -D_POSIX_SOURCE -DDEBIAN
-GCCOP1=-ansi -O2 -fomit-frame-pointer -D_POSIX_SOURCE -DDEBIAN
+GCCOP2=-ansi $(CDEBUGFLAGS) -fomit-frame-pointer -mieee-fp -D_POSIX_SOURCE -DDEBIAN
+GCCOP1=-ansi $(CDEBUGFLAGS) -fomit-frame-pointer -D_POSIX_SOURCE -DDEBIAN
 
 ## Avoid using -mieee-fp on anything other than the i386 platform
 ## as it is a gcc i386 specific option
@@ -33,13 +51,13 @@ build:
 
 
         
-	if [ $(arch) == "i386" ] ;\
+	if [ $(arch) = "i386" ] ;\
            then echo "Building for i386" ;\
         fi
 
 #alpha long makes extra-long which is incompatible 
 #with other fortran systems on alpha
-	if [ $(arch) == "alpha" ] ;\
+	if [ $(arch) = "alpha" ] ;\
            then echo "Building for ALPHA" ;\
 	   sed 's/long //' f2c.h > f2c.install.h ;\
 	else \
@@ -47,10 +65,8 @@ build:
 	fi
 
 ## These take gcc options from GCCOPT 
-	$(MAKE) -f ./debian/make_lib INTSIZE=f2c
-	$(MAKE) -f ./debian/make_lib INTSIZE=f2c_i2
-	strip libf2c.so.2.1
-	strip libf2c_i2.so.2.1
+	$(MAKE) -f ./debian/make_lib INTSIZE=f2c GCCOPT="$(GCCOPT)"
+	$(MAKE) -f ./debian/make_lib INTSIZE=f2c_i2 GCCOPT="$(GCCOPT)"
 	touch build
 
 clean:
@@ -88,16 +104,13 @@ binary-arch: checkroot
 	install -c -m 0644 f2c.install.h   ${prefix-dev}/usr/include/f2c.h
 
 # shared libs in shared lib package
-	install -s -c -m 0644 libf2c.so.$(flibver) \
+	$(INSTALL_LIB) libf2c.so.$(flibver) \
 			            ${prefix}/usr/lib/libf2c.so.$(flibver)
-	install -s -c -m 0644 libf2c_i2.so.$(flibver) \
+	$(INSTALL_LIB) libf2c_i2.so.$(flibver) \
 		                    ${prefix}/usr/lib/libf2c_i2.so.$(flibver)
 
 	(cd ${prefix}/usr/lib; ln -s libf2c.so.$(flibver) libf2c.so.$(flibmajorver); \
 	ln -s libf2c_i2.so.$(flibver) libf2c_i2.so.$(flibmajorver) )
-
-	(cd ${prefix-dev}/usr/lib; ln -sf libf2c.so.$(flibver) libf2c.so; \
-	ln -s libf2c_i2.so.$(flibver) libf2c_i2.so )
 
 	install -d -m 0755             ${prefix-dev}/usr/share/doc/$(package-dev)
 	install -d -m 0755             ${prefix}/usr/share/doc/$(package)
@@ -126,6 +139,7 @@ binary-arch: checkroot
 	dpkg-shlibdeps -Tdebian/substvars.libf2c2 debian/libf2c2/usr/lib/*
 	dpkg-gencontrol -isp -plibf2c2-dev -Pdebian/libf2c2-dev 
 	dpkg-gencontrol -isp -plibf2c2 -Pdebian/libf2c2 -Tdebian/substvars.libf2c2
+	dh_md5sums
 	chown -R root.root ${prefix-dev}
 	chown -R root.root ${prefix}
 	chmod -R go-ws ${prefix-dev}

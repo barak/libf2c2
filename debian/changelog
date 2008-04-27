@@ -1,3 +1,10 @@
+libf2c2 (20050501-3) unstable; urgency=low
+  * Remove bashishm from debian/rules (closes: bug#477611)
+  * Generate md5sums
+  * Use the nostrip option (closes: bug#437370)
+  * This package is not orphaned (closes: bug#465911)
+ -- Alan Bain <afrb2@debian.org>  Sun, 27 Apr 2008 16:40:40 +0100 
+
 libf2c2 (20050501-2) unstable; urgency=low
   * Previous version erroneously assumed f2c.h was on include
     path, now fixed (closes: bug#328938)
