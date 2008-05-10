@@ -2,21 +2,18 @@
 
 all:
 	cd ..	
-	$(MAKE) -C libF77/  CFLAGS="$(GCCOPT) -fPIC \
-	    -I ../ -DNON_UNIX_STDIO -D$(INTSIZE)" 
-	$(MAKE) -C libI77/  CFLAGS="$(GCCOPT) -fPIC \
-	    -I ../ -DNON_UNIX_STDIO -D$(INTSIZE)" 
-	#
+	$(MAKE) -f makefile.u CFLAGS="$(GCCOPT) -fPIC \
+        -I ../ -DNON_UNIX_STDIO -D$(INTSIZE)" 
+
 	gcc -shared -Wl,-soname,lib$(INTSIZE).so.2\
-	                 -o lib$(INTSIZE).so.2.1 lib?77/*.o -lc
-	#
-	ar r lib$(INTSIZE).a lib?77/*.o
-	ranlib lib$(INTSIZE).a	 
+	                 -o lib$(INTSIZE).so.2.1 *.o -lc -lm
+         
+	ar r lib$(INTSIZE).a *.o
+	ranlib lib$(INTSIZE).a
 	touch build_$(INTSIZE)
 
 clean: 
 	cd ..
-	$(MAKE) -C libF77/ clean
-	$(MAKE) -C libI77/ clean
+	$(MAKE) -f makefile.u  clean
 
 
