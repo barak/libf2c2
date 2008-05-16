@@ -1,3 +1,9 @@
+libf2c2 (20061008-2) unstable; urgency=low
+  * fixes to shared library integer size in IO calls; normal
+    version was being overwritten by version for -I2 option,
+    causing segmentation faults with certain IO operations.
+ -- Alan Bain <afrb2@debian.org>  Fri, 16 May 2008 23:00:40 +0100 
+
 libf2c2 (20061008-1) unstable; urgency=low
   * new upstream source fixes various problems on 64 bit platforms
   * fixes for the _i2 library in build (file IO with short int params)
