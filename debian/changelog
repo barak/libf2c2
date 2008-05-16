@@ -1,3 +1,7 @@
+libf2c2 (20061008-3) unstable; urgency=low
+  * fix broken symlinks in -dev package
+ -- Alan Bain <afrb2@debian.org>  Sat, 17 May 2008 00:40:40 +0100 
+
 libf2c2 (20061008-2) unstable; urgency=low
   * fixes to shared library integer size in IO calls; normal
     version was being overwritten by version for -I2 option,

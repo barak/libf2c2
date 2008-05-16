@@ -114,6 +114,10 @@ binary-arch: checkroot
 	(cd ${prefix}/usr/lib; ln -s libf2c.so.$(flibver) libf2c.so.$(flibmajorver); \
 	ln -s libf2c_i2.so.$(flibver) libf2c_i2.so.$(flibmajorver) )
 
+	(cd ${prefix-dev}/usr/lib; ln -sf libf2c.so.$(flibver) libf2c.so        ; \
+	ln -s libf2c_i2.so.$(flibver) libf2c_i2.so )
+
+
 	install -d -m 0755             ${prefix-dev}/usr/share/doc/$(package-dev)
 	install -d -m 0755             ${prefix}/usr/share/doc/$(package)
 	install -c -m 0644 changes     ${prefix}/usr/share/doc/$(package)/changelog
