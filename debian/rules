@@ -55,15 +55,6 @@ build:
            then echo "Building for i386" ;\
         fi
 
-#alpha long makes extra-long which is incompatible 
-#with other fortran systems on alpha
-	if [ $(DEB_HOST_ARCH) = "alpha" -o $(arch) = "ia64" ] ;\
-           then echo "Building for ALPHA or IA64" ;\
-	   sed 's/long //' f2c_master.h > f2c.h ;\
-	else \
-	 	cp f2c_master.h f2c.h ;\
-	fi
-
 ## These take gcc options from GCCOPT 
 	$(MAKE) -f ./debian/make_lib INTSIZE=f2c GCCOPT="$(GCCOPT)"
 ## Make sure everything rebuilt for -I2 lib
@@ -78,7 +69,7 @@ clean:
 	rm -f build build_f2c build_f2c_i2
 	rm -rf debian/libf2c2-dev 
 	rm -rf debian/libf2c2
-	rm -rf debian/*~ debian/files* debian/substvars.*
+	rm -rf debian/*~ debian/files* debian/substvars.* debian/*.debhelper.log
 
 binary-indep:	checkroot build
 	${checkdir}

@@ -1,3 +1,18 @@
+libf2c2 (20061008-4.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Don't sed away long on alpha and ia64, that was an ugly hack.
+  * Instead add some ifdefs to f2c.h so we catch all archs where
+    a long is 8 bytes and use only int there (make sure not to break
+    other architectures by keeping long int there).
+    Update README.debian accordingly.
+    Also update f2c.h0 and f2c_master.h, so the files match, even if
+    they are unused.
+    Closes: #442018, #508565.
+  * Clean debian/*.debhelper.log.
+
+ -- Evgeni Golov <sargentd@die-welt.net>  Sat, 03 Jan 2009 03:41:30 +0100
+
 libf2c2 (20061008-4) unstable; urgency=low
   * Remove CVS directory left in source package
  -- Alan Bain <afrb2@debian.org>  Mon, 19 May 2008 22:50:54 +0100 
