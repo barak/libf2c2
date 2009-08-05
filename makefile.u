@@ -79,10 +79,14 @@ libf2c.a: $(OFILES)
 ## systems.  Details are system-dependent.  Under Linux, -fPIC
 ## must appear in the CFLAGS assignment when making libf2c.so.
 ## Under Solaris, use -Kpic in CFLAGS and use "ld -G" instead
-## of "cc -shared".
+## of "$(CC) -shared".
+## For MacOSX 10.4 and 10.5 (and perhaps other versions >= 10.3), use
+## "MACOSX_DEPLOYMENT_TARGET=10.3 libtool -dynamic -undefined dynamic_lookup -single_module"
+## instead of "$(CC) -shared", and when running programs linked against libf2c.so,
+## arrange for $DYLD_LIBRARY_PATH to include the directory containing libf2c.so.
 
 libf2c.so: $(OFILES)
-	cc -shared -o libf2c.so $(OFILES)
+	$(CC) -shared -o libf2c.so $(OFILES)
 
 ### If your system lacks ranlib, you don't need it; see README.
 

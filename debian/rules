@@ -94,7 +94,7 @@ binary-arch: checkroot
 	install -c -m 0644 libf2c.a    ${prefix-dev}/usr/lib/libf2c.a
 	install -c -m 0644 libf2c_i2.a ${prefix-dev}/usr/lib/libf2c_i2.a
 	install -d -m 0755             ${prefix-dev}/usr/include
-	install -c -m 0644 f2c.h   ${prefix-dev}/usr/include/f2c.h
+	install -c -m 0644 f2c.h0   ${prefix-dev}/usr/include/f2c.h
 
 # shared libs in shared lib package
 	$(INSTALL_LIB) libf2c.so.$(flibver) \
@@ -102,6 +102,11 @@ binary-arch: checkroot
 	$(INSTALL_LIB) libf2c_i2.so.$(flibver) \
 		                    ${prefix}/usr/lib/libf2c_i2.so.$(flibver)
 
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+	strip --remove-section=.comment --remove-section=.note ${prefix}/usr/lib/libf2c.so.$(flibver)
+	strip --remove-section=.comment --remove-section=.note ${prefix}/usr/lib/libf2c_i2.so.$(flibver)
+endif
+	
 	(cd ${prefix}/usr/lib; ln -s libf2c.so.$(flibver) libf2c.so.$(flibmajorver); \
 	ln -s libf2c_i2.so.$(flibver) libf2c_i2.so.$(flibmajorver) )
 
