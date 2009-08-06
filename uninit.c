@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "arith.h"
 
 #define TYSHORT 2
@@ -248,8 +249,8 @@ ieee0(Void)
  * independent way.  It should be used if at all possible  -- AFRB
  */
 
-#if (defined(__GLIBC__)&&(!(__GLIBC__==2&&__GLIBC_MINOR<2)&&(!__GLIBC__<2)))
 
+#if (defined(__GLIBC__)&& ( __GLIBC__>=2) && (__GLIBC_MINOR__>=2) )
 #define _GNU_SOURCE 1
 #define IEEE0_done
 #include <fenv.h>
@@ -273,6 +274,7 @@ ieee0(Void)
 #if (defined(__linux__)&&(!defined(IEEE0_done)))
 #define IEEE0_done
 #include <fpu_control.h>
+
 
 #ifdef __alpha__
 #ifndef USE_setfpucw
