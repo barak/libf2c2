@@ -1,0 +1,10 @@
+*.a
+*.o
+*.so.*
+/arith.h
+/build
+/build_f2c
+/build_f2c_i2
+/f2c.h
+/signal1.h
+/sysdep1.h
