@@ -5,11 +5,15 @@ Maintainer: Barak A. Pearlmutter <bap@debian.org>
 Standards-Version: 3.9.6
 Build-Depends: debhelper (>= 9)
 Homepage: http://www.netlib.org/f2c/index.html
+Vcs-Git: git://anonscm.debian.org/collab-maint/libf2c2.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/libf2c2.git
 
 Package: libf2c2
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Conflicts: f2c (<< 20050501-1)
 Description: Shared libraries for use with FORTRAN applications
  These are the shared libraries required for running 

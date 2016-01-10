@@ -6,6 +6,7 @@ prefix-dev=debian/libf2c2-dev
 prefix=debian/libf2c2
 
 DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
+DEB_HOST_MULTIARCH := $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 dir=$(package)-$(version)
 file=$(package)_$(version)-$(debian)
@@ -86,27 +87,29 @@ binary-arch: checkroot
 
 	install -d -m 0755             ${prefix-dev}/usr/lib
 	install -d -m 0755             ${prefix}/usr/lib
+	install -d -m 0755             ${prefix-dev}/usr/lib/${DEB_HOST_MULTIARCH}
+	install -d -m 0755             ${prefix}/usr/lib/${DEB_HOST_MULTIARCH}
 # static libraries in -dev package
-	install -c -m 0644 libf2c.a    ${prefix-dev}/usr/lib/libf2c.a
-	install -c -m 0644 libf2c_i2.a ${prefix-dev}/usr/lib/libf2c_i2.a
+	install -c -m 0644 libf2c.a    ${prefix-dev}/usr/lib/${DEB_HOST_MULTIARCH}/libf2c.a
+	install -c -m 0644 libf2c_i2.a ${prefix-dev}/usr/lib/${DEB_HOST_MULTIARCH}/libf2c_i2.a
 	install -d -m 0755             ${prefix-dev}/usr/include
 	install -c -m 0644 f2c.h0   ${prefix-dev}/usr/include/f2c.h
 
 # shared libs in shared lib package
 	$(INSTALL_LIB) libf2c.so.$(flibver) \
-			            ${prefix}/usr/lib/libf2c.so.$(flibver)
+			            ${prefix}/usr/lib/${DEB_HOST_MULTIARCH}/libf2c.so.$(flibver)
 	$(INSTALL_LIB) libf2c_i2.so.$(flibver) \
-		                    ${prefix}/usr/lib/libf2c_i2.so.$(flibver)
+		                    ${prefix}/usr/lib/${DEB_HOST_MULTIARCH}/libf2c_i2.so.$(flibver)
 
 ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
-	strip --remove-section=.comment --remove-section=.note ${prefix}/usr/lib/libf2c.so.$(flibver)
-	strip --remove-section=.comment --remove-section=.note ${prefix}/usr/lib/libf2c_i2.so.$(flibver)
+	strip --remove-section=.comment --remove-section=.note ${prefix}/usr/lib/${DEB_HOST_MULTIARCH}/libf2c.so.$(flibver)
+	strip --remove-section=.comment --remove-section=.note ${prefix}/usr/lib/${DEB_HOST_MULTIARCH}/libf2c_i2.so.$(flibver)
 endif
 
-	(cd ${prefix}/usr/lib; ln -s libf2c.so.$(flibver) libf2c.so.$(flibmajorver); \
+	(cd ${prefix}/usr/lib/${DEB_HOST_MULTIARCH}; ln -s libf2c.so.$(flibver) libf2c.so.$(flibmajorver); \
 	ln -s libf2c_i2.so.$(flibver) libf2c_i2.so.$(flibmajorver) )
 
-	(cd ${prefix-dev}/usr/lib; ln -sf libf2c.so.$(flibver) libf2c.so        ; \
+	(cd ${prefix-dev}/usr/lib/${DEB_HOST_MULTIARCH}; ln -sf libf2c.so.$(flibver) libf2c.so        ; \
 	ln -s libf2c_i2.so.$(flibver) libf2c_i2.so )
 
 
@@ -132,7 +135,7 @@ endif
 			            ${prefix}/usr/share/doc/$(package)/copyright
 
 
-	dpkg-shlibdeps -Tdebian/substvars.libf2c2 debian/libf2c2/usr/lib/*
+	dpkg-shlibdeps -Tdebian/substvars.libf2c2 debian/libf2c2/usr/lib/${DEB_HOST_MULTIARCH}/*
 	dpkg-gencontrol -isp -plibf2c2-dev -Pdebian/libf2c2-dev 
 	dpkg-gencontrol -isp -plibf2c2 -Pdebian/libf2c2 -Tdebian/substvars.libf2c2
 	dh_md5sums
