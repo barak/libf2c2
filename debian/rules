@@ -6,6 +6,7 @@ prefix-dev=debian/libf2c2-dev
 prefix=debian/libf2c2
 
 DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
+BUILD_DATE=$(shell dpkg-parsechangelog --show-field Date)
 
 dir=$(package)-$(version)
 file=$(package)_$(version)-$(debian)
@@ -140,7 +141,11 @@ endif
 	chown -R root.root ${prefix}
 	chmod -R go-ws ${prefix-dev}
 	chmod -R go-ws ${prefix}
+	find ${prefix-dev} -depth -newermt '$(BUILD_DATE)' -print0 | \
+		xargs -0r touch --no-dereference --date='$(BUILD_DATE)'
 	dpkg --build ${prefix-dev}  ..
+	find ${prefix} -depth -newermt '$(BUILD_DATE)' -print0 | \
+		xargs -0r touch --no-dereference --date='$(BUILD_DATE)'
 	dpkg --build ${prefix}  ..
 
 
