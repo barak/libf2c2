@@ -1,3 +1,16 @@
+libf2c2 (20090411-3) unstable; urgency=medium
+
+  * Adopt package (closes: #810238)
+  * dh9
+  * bump policy version
+  * debian/control homepage, packaging repo
+  * multiarch
+  * reproducible build, smash gzip timestamp (closes: #788001)
+  * source format 3.0 (quilt)
+  * modernize debian/copyright
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Mon, 11 Jan 2016 08:42:44 +0000
+
 libf2c2 (20090411-2) unstable; urgency=low
   
   * Small code changes to uninit.c to fix compilation problems
