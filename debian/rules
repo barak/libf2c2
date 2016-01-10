@@ -6,7 +6,6 @@ prefix-dev=debian/libf2c2-dev
 prefix=debian/libf2c2
 
 DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
-BUILD_DATE=$(shell dpkg-parsechangelog --show-field Date)
 
 dir=$(package)-$(version)
 file=$(package)_$(version)-$(debian)
@@ -103,7 +102,7 @@ ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 	strip --remove-section=.comment --remove-section=.note ${prefix}/usr/lib/libf2c.so.$(flibver)
 	strip --remove-section=.comment --remove-section=.note ${prefix}/usr/lib/libf2c_i2.so.$(flibver)
 endif
-	
+
 	(cd ${prefix}/usr/lib; ln -s libf2c.so.$(flibver) libf2c.so.$(flibmajorver); \
 	ln -s libf2c_i2.so.$(flibver) libf2c_i2.so.$(flibmajorver) )
 
@@ -125,8 +124,8 @@ endif
 				    ${prefix-dev}/usr/share/doc/$(package-dev)/README.debian
 	install -c -m 0644 debian/README.debian  \
 				    ${prefix}/usr/share/doc/$(package)/README.debian
-	(cd ${prefix}/usr/share/doc/$(package); gzip -9v *)
-	(cd ${prefix-dev}/usr/share/doc/$(package-dev); gzip -9v *)
+	(cd ${prefix}/usr/share/doc/$(package); gzip -9nv *)
+	(cd ${prefix-dev}/usr/share/doc/$(package-dev); gzip -9nv *)
 	install -c -m 0644 debian/copyright \
 			            ${prefix-dev}/usr/share/doc/$(package-dev)/copyright
 	install -c -m 0644 debian/copyright \
@@ -141,11 +140,7 @@ endif
 	chown -R root.root ${prefix}
 	chmod -R go-ws ${prefix-dev}
 	chmod -R go-ws ${prefix}
-	find ${prefix-dev} -depth -newermt '$(BUILD_DATE)' -print0 | \
-		xargs -0r touch --no-dereference --date='$(BUILD_DATE)'
 	dpkg --build ${prefix-dev}  ..
-	find ${prefix} -depth -newermt '$(BUILD_DATE)' -print0 | \
-		xargs -0r touch --no-dereference --date='$(BUILD_DATE)'
 	dpkg --build ${prefix}  ..
 
 
