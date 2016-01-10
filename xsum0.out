@@ -103,7 +103,7 @@ lread.c	f1e54a1f	14739
 lwrite.c	f80da63f	4616
 main.c	371f60f	2230
 makefile.sy	174ccb83	2990
-makefile.u	1af4c6b1	7046
+makefile.u	fce2cb5f	7302
 makefile.vc	179d7b1c	2942
 makefile.wat	18b044ac	2936
 math.hvc	19bb2d07	50
