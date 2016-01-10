@@ -1,7 +1,7 @@
 Source: libf2c2
 Section: devel
 Priority: optional
-Maintainer: Alan Bain <afrb2@debian.org>
+Maintainer: Barak A. Pearlmutter <bap@debian.org>
 Standards-Version: 3.8.2
 Build-Depends: debhelper(>=5.0)
 
