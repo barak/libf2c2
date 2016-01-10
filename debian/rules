@@ -1,8 +1,4 @@
 #!/usr/bin/make -f
-#   -*- mode: makefile; -*-
-
-# debian.rules file - for libf2c
-
 
 package=libf2c2
 package-dev=libf2c2-dev
