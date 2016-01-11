@@ -3,7 +3,7 @@ Section: devel
 Priority: optional
 Maintainer: Barak A. Pearlmutter <bap@debian.org>
 Standards-Version: 3.9.6
-Build-Depends: debhelper (>= 9)
+Build-Depends: debhelper (>= 9), dh-exec
 Homepage: http://www.netlib.org/f2c/index.html
 Vcs-Git: git://anonscm.debian.org/collab-maint/libf2c2.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/libf2c2.git
