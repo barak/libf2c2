@@ -1,3 +1,9 @@
+libf2c2 (20130926-1) unstable; urgency=medium
+
+  * New upstream version
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Mon, 11 Jan 2016 22:41:47 +0000
+
 libf2c2 (20090411-3) unstable; urgency=medium
 
   * Adopt package (closes: #810238)
