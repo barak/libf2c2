@@ -3,16 +3,16 @@ Date: Mon, 11 Jan 2016 20:41:36 +0000
 Subject: upstream changelog
 
 ---
- changes | 3468 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 3468 insertions(+)
+ changes | 3487 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 3487 insertions(+)
  create mode 100644 changes
 
 diff --git a/changes b/changes
 new file mode 100644
-index 0000000..432f055
+index 0000000..2ade258
 --- /dev/null
 +++ b/changes
-@@ -0,0 +1,3468 @@
+@@ -0,0 +1,3487 @@
 +31 Aug. 1989:
 +   1. A(min(i,j)) now is translated correctly (where A is an array).
 +   2. 7 and 8 character variable names are allowed (but elicit a
@@ -3478,6 +3478,25 @@ index 0000000..432f055
 +
 +Sat Apr 11 18:06:00 MDT 2009
 +  src/sysdep.c src/sysdeptest.c: tweak for MacOSX (include <unistd.h>).
++
++Wed Jul  7 10:51:12 MDT 2010
++  src/data.c, src/format.c, src/p1output.c:  "invisible" tweaks to
++silence warnings seen in compilation under Ubuntu; version.c not changed.
++
++Fri Aug 27 09:14:17 MDT 2010
++  format.c: make sizeof(buf) depend on MAXNAMELEN to fix a bug with long
++names.  Update mswin/f2c.exe.gz accordingly.
++
++Fri Sep  3 16:03:24 MDT 2010
++  fc:  have "-m ..." modify CC rather than CFLAGS (to affect linking).
++
++Mon Aug  1 13:46:40 MDT 2011
++  README, README in libf2c.zip: update some netlib pointers.
++
++Thu Sep 26 16:42:35 MDT 2013
++  arithchk.c and sysdep1.h0 updated.  The former has a new
++"#ifdef NO_SSZIZE_T" section for use elsewhere.  The latter has a
++change supplied by Gregor Richards for use with some libc variants.
 +
 +NOTE:  the old libf77 and libi77 bundles are no longer being updated.
 +Use libf2c.zip instead.
