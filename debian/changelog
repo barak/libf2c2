@@ -1,3 +1,10 @@
+libf2c2 (20130926-2) UNRELEASED; urgency=medium
+
+  * Team upload
+  * Add two files that are included in the clapack source but missing here
+
+ -- Andreas Tille <tille@debian.org>  Wed, 25 May 2016 15:38:07 +0200
+
 libf2c2 (20130926-1) unstable; urgency=medium
 
   * New upstream version
