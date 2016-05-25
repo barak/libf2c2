@@ -72,3 +72,21 @@ Description: Adding two files that are part of clapack source
 +#ifdef __cplusplus
 +}
 +#endif
+--- a/makefile.u
++++ b/makefile.u
+@@ -43,6 +43,7 @@ DBL =	d_abs.o d_acos.o d_asin.o d_atan.o
+ 	d_nint.o d_prod.o d_sign.o d_sin.o d_sinh.o\
+ 	d_sqrt.o d_tan.o d_tanh.o
+ INT =	i_abs.o i_dim.o i_dnnt.o i_indx.o i_len.o i_mod.o i_nint.o i_sign.o\
++	i_ceiling.o i_len_trim.o\
+ 	lbitbits.o lbitshft.o
+ HALF =	h_abs.o h_dim.o h_dnnt.o h_indx.o h_len.o h_mod.o h_nint.o h_sign.o
+ CMP =	l_ge.o l_gt.o l_le.o l_lt.o hl_ge.o hl_gt.o hl_le.o hl_lt.o
+@@ -202,6 +203,7 @@ check:
+ 	getarg_.c getenv_.c h_abs.c h_dim.c h_dnnt.c h_indx.c h_len.c \
+ 	h_mod.c h_nint.c h_sign.c hl_ge.c hl_gt.c hl_le.c hl_lt.c \
+ 	i77vers.c i_abs.c i_dim.c i_dnnt.c i_indx.c i_len.c i_mod.c \
++	i_ceiling.c i_len_trim.c \
+ 	i_nint.c i_sign.c iargc_.c iio.c ilnw.c inquire.c l_ge.c l_gt.c \
+ 	l_le.c l_lt.c lbitbits.c lbitshft.c libf2c.lbc libf2c.sy lio.h \
+ 	lread.c lwrite.c main.c makefile.sy makefile.u makefile.vc \
