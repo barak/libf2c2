@@ -1,10 +1,10 @@
 # -*- makefile -*-
 
 all:
-	$(MAKE) -f makefile.u CFLAGS="$(GCCOPT) -fPIC \
+	$(MAKE) -f makefile.u CFLAGS="$(CFLAGS) $(GCCOPT) -fPIC \
         -I ../ -DNON_UNIX_STDIO -D$(INTSIZE)" 
 
-	gcc -shared -Wl,-soname,lib$(INTSIZE).so.2\
+	gcc -shared -Wl,-soname,lib$(INTSIZE).so.2 LDFLAGS=$(LDFLAGS) \
 	                 -o lib$(INTSIZE).so.2.1 *.o -lc -lm
 
 	ar r lib$(INTSIZE).a *.o
