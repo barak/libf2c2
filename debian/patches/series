@@ -2,3 +2,4 @@
 0002-makefile-simplify-two-libs.patch
 0003-C-tweaks.patch
 add_clapack_files.patch
+format-security.patch
