@@ -1,5 +1,5 @@
 0001-upstream-changelog.patch
 0002-makefile-simplify-two-libs.patch
 0003-C-tweaks.patch
-add_clapack_files.patch
-format-security.patch
+0004-add-clapack-files.patch
+0005-format-security.patch

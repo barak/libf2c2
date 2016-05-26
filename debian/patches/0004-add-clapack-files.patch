@@ -1,13 +1,27 @@
-Author: Andreas Tille <tille@debian.org>
-Last-Update: Wed, 25 May 2016 15:38:07 +0200
-Description: Adding two files that are part of clapack source
- The clapack archive that can be downloaded at
-   http://www.netlib.org/clapack/
- contains a copy of f2c.  This copy copy is basically identical but it includes
- two files which are missing in the source which was the base for the libf2c2
- package.  Since the functions inside these files are used inside the test suite
- of clapack the files were added here to avoid code duplication.
+From: Andreas Tille <tille@debian.org>
+Date: Wed, 25 May 2016 16:01:55 +0200
+Subject: add clapack files
 
+Adding two files that are part of clapack source
+The clapack archive that can be downloaded at
+  http://www.netlib.org/clapack/
+contains a copy of f2c.  This copy copy is basically identical but it includes
+two files which are missing in the source which was the base for the libf2c2
+package.  Since the functions inside these files are used inside the test suite
+of clapack the files were added here to avoid code duplication.
+
+Add missing files also to makefile.u to get them built
+---
+ i_ceiling.c  | 36 ++++++++++++++++++++++++++++++++++++
+ i_len_trim.c | 22 ++++++++++++++++++++++
+ makefile.u   |  2 ++
+ 3 files changed, 60 insertions(+)
+ create mode 100644 i_ceiling.c
+ create mode 100644 i_len_trim.c
+
+diff --git a/i_ceiling.c b/i_ceiling.c
+new file mode 100644
+index 0000000..f708a8b
 --- /dev/null
 +++ b/i_ceiling.c
 @@ -0,0 +1,36 @@
@@ -47,6 +61,9 @@ Description: Adding two files that are part of clapack source
 +#ifdef __cplusplus
 +}
 +#endif
+diff --git a/i_len_trim.c b/i_len_trim.c
+new file mode 100644
+index 0000000..c7b7680
 --- /dev/null
 +++ b/i_len_trim.c
 @@ -0,0 +1,22 @@
@@ -72,9 +89,11 @@ Description: Adding two files that are part of clapack source
 +#ifdef __cplusplus
 +}
 +#endif
+diff --git a/makefile.u b/makefile.u
+index 0784eec..f78ff4b 100644
 --- a/makefile.u
 +++ b/makefile.u
-@@ -43,6 +43,7 @@ DBL =	d_abs.o d_acos.o d_asin.o d_atan.o
+@@ -43,6 +43,7 @@ DBL =	d_abs.o d_acos.o d_asin.o d_atan.o d_atn2.o\
  	d_nint.o d_prod.o d_sign.o d_sin.o d_sinh.o\
  	d_sqrt.o d_tan.o d_tanh.o
  INT =	i_abs.o i_dim.o i_dnnt.o i_indx.o i_len.o i_mod.o i_nint.o i_sign.o\
