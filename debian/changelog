@@ -2,6 +2,7 @@ libf2c2 (20130926-3) UNRELEASED; urgency=medium
 
   * Team upload
   * hardening=+bindnow breaks clapack tests
+  * lintian-override for hardening-no-bindnow since this should not be set
 
  -- Andreas Tille <tille@debian.org>  Thu, 26 May 2016 08:26:42 +0200
 
