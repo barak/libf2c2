@@ -1,3 +1,9 @@
+libf2c2 (20130926-3) UNRELEASED; urgency=medium
+
+  * hardening=+bindnow breaks clapack tests
+
+ -- Andreas Tille <tille@debian.org>  Thu, 26 May 2016 08:26:42 +0200
+
 libf2c2 (20130926-2) unstable; urgency=medium
 
   * Team upload
