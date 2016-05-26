@@ -1,27 +1,18 @@
-libf2c2 (20130926-3) UNRELEASED; urgency=medium
+libf2c2 (20130926-1) unstable; urgency=medium
 
   * Team upload
-  * hardening=+bindnow breaks clapack tests
-  * lintian-override for hardening-no-bindnow since this should not be set
 
- -- Andreas Tille <tille@debian.org>  Thu, 26 May 2016 08:26:42 +0200
+  [ Barak A. Pearlmutter ]
+  * New upstream version
 
-libf2c2 (20130926-2) unstable; urgency=medium
-
-  * Team upload
+  [ Andreas Tille ]
   * Add two files that are included in the clapack source but missing here
   * Propagate CFLAGS to make sure clapack tests will succeed
   * cme fix dpkg-control
-  * Better hardening
+  * lintian-override for hardening-no-bindnow since this should not be set
   * Conflicts with lower version should be Breaks
 
- -- Andreas Tille <tille@debian.org>  Wed, 25 May 2016 21:54:36 +0200
-
-libf2c2 (20130926-1) unstable; urgency=medium
-
-  * New upstream version
-
- -- Barak A. Pearlmutter <bap@debian.org>  Mon, 11 Jan 2016 22:41:47 +0000
+ -- Andreas Tille <tille@debian.org>  Thu, 26 May 2016 08:38:04 +0200
 
 libf2c2 (20090411-3) unstable; urgency=medium
 
