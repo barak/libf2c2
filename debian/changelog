@@ -1,3 +1,12 @@
+libf2c2 (20130926-2) unstable; urgency=medium
+
+  * Team upload
+  * Make suitable for creating libraries to be used in non-Fortran programs
+    (thanks for the patch to Christian Seiler <christian@iwakd.de>)
+    Closes: #826253
+
+ -- Andreas Tille <tille@debian.org>  Fri, 03 Jun 2016 22:11:58 +0200
+
 libf2c2 (20130926-1) unstable; urgency=medium
 
   * Team upload
