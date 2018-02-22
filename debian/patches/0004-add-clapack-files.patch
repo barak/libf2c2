@@ -5,7 +5,7 @@ Subject: add clapack files
 Adding two files that are part of clapack source
 The clapack archive that can be downloaded at
   http://www.netlib.org/clapack/
-contains a copy of f2c.  This copy copy is basically identical but it includes
+contains a copy of f2c.  This copy is basically identical but it includes
 two files which are missing in the source which was the base for the libf2c2
 package.  Since the functions inside these files are used inside the test suite
 of clapack the files were added here to avoid code duplication.

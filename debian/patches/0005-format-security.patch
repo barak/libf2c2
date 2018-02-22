@@ -2,7 +2,7 @@ From: Andreas Tille <tille@debian.org>
 Date: Sat, 21 May 2016 09:41:25 +0200
 Subject: format security
 
-Test breaks format security and should be fullfilled on Linux anyway.
+Test breaks format security and should be fulfilled on Linux anyway.
 (See discussion on debian-mentors list in May 2016)
 ---
  arithchk.c | 2 ++
