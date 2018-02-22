@@ -3,6 +3,7 @@ libf2c2 (20130926-3) UNRELEASED; urgency=medium
   * Team upload.
   * Move packaging to salsa.debian.org
   * cme fix dpkg-control
+  * debhelper 11
 
  -- Andreas Tille <tille@debian.org>  Thu, 22 Feb 2018 13:33:39 +0100
 
