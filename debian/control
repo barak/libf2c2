@@ -4,7 +4,7 @@ Section: devel
 Priority: optional
 Build-Depends: debhelper (>= 9),
                dh-exec
-Standards-Version: 3.9.8
+Standards-Version: 4.1.3
 Vcs-Browser: https://salsa.debian.org/debian/libf2c2
 Vcs-Git: https://salsa.debian.org/debian/libf2c2.git
 Homepage: http://www.netlib.org/f2c/index.html
@@ -16,7 +16,6 @@ Section: libs
 Depends: ${shlibs:Depends},
          ${misc:Depends}
 Pre-Depends: ${misc:Pre-Depends}
-Breaks: f2c (<< 20050501-1)
 Description: Shared libraries for use with FORTRAN applications
  These are the shared libraries required for running 
  applications containing a component written in FORTRAN 
@@ -30,7 +29,6 @@ Depends: libf2c2 (= ${binary:Version}),
          libc6-dev,
          ${shlibs:Depends},
          ${misc:Depends}
-Breaks: f2c (<< 20050501-1)
 Description: Development libraries for use with f2c
  These are the necessary static libraries and header
  files for an implementation of the fortran intrinsic
