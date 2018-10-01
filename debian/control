@@ -17,8 +17,8 @@ Depends: ${shlibs:Depends},
          ${misc:Depends}
 Pre-Depends: ${misc:Pre-Depends}
 Description: Shared libraries for use with FORTRAN applications
- These are the shared libraries required for running 
- applications containing a component written in FORTRAN 
+ These are the shared libraries required for running
+ applications containing a component written in FORTRAN
  which was converted to C using the FORTRAN to C translator
  f2c.
 
@@ -32,7 +32,7 @@ Depends: libf2c2 (= ${binary:Version}),
 Description: Development libraries for use with f2c
  These are the necessary static libraries and header
  files for an implementation of the fortran intrinsic
- functions and IO functions.  
+ functions and IO functions.
  .
- They are required when linking applications built from the 
+ They are required when linking applications built from the
  C output from the FORTRAN to C translator f2c.
