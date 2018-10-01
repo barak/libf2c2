@@ -24,9 +24,9 @@ GCCOP1=-ansi $(CDEBUGFLAGS) -fomit-frame-pointer -D_GNU_SOURCE -DDDEBIAN
 
 ## Avoid using -mieee-fp on anything other than the i386 platform
 ## as it is a gcc i386 specific option
-ifeq ($(DEB_HOST_ARCH),i386) 
+ifeq ($(DEB_HOST_ARCH),i386)
    GCCOPT=$(GCCOP2)
-else 
+else
    GCCOPT=$(GCCOP1)
 endif
 
@@ -35,7 +35,7 @@ override_dh_auto_build:
            then echo "Building for i386" ;\
         fi
 
-## These take gcc options from GCCOPT 
+## These take gcc options from GCCOPT
 	$(MAKE) -f ./debian/make_lib INTSIZE=f2c GCCOPT="$(GCCOPT)"
 ## Make sure everything rebuilt for -I2 lib
 	$(MAKE) -f ./debian/make_lib clean
