@@ -9,6 +9,7 @@ libf2c2 (20130926-4) UNRELEASED; urgency=medium
   * Trim trailing whitespace.
   * Use secure URI in Homepage field.
   * Bump debhelper from old 11 to 13.
+  * Set debhelper-compat version in Build-Depends.
 
  -- Ondřej Nový <onovy@debian.org>  Mon, 01 Oct 2018 10:20:17 +0200
 
