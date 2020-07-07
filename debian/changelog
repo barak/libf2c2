@@ -1,8 +1,12 @@
 libf2c2 (20130926-4) UNRELEASED; urgency=medium
 
+  [ Ondřej Nový ]
   * d/changelog: Remove trailing whitespaces
   * d/control: Remove trailing whitespaces
   * d/rules: Remove trailing whitespaces
+
+  [ Barak A. Pearlmutter ]
+  * Trim trailing whitespace.
 
  -- Ondřej Nový <onovy@debian.org>  Mon, 01 Oct 2018 10:20:17 +0200
 
@@ -130,4 +134,3 @@ libf2c2 (20050501-1) unstable; urgency=low
     build using f2c should not be part of the f2c package.
 
  -- Alan Bain <afrb2@debian.org>  Mon, 22 Aug 2005 20:23:49 +0100
-
