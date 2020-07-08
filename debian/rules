@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
-# When this is set clapack tests are broken
-# export DEB_BUILD_MAINT_OPTIONS = hardening=+bindnow
+# Setting hardening=+bindnow breaks clapack tests
+export DEB_BUILD_MAINT_OPTIONS = hardening=-bindnow
 
 %:
 	dh $@
