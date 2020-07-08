@@ -3,21 +3,22 @@ Date: Sun, 25 Feb 2018 16:51:35 +0000
 Subject: format security sprintf
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-U3F1YXNoIHBvdGVudGlhbCBidWZmZXIgb3ZlcmZsb3cgbm90aWNlZCBieSBHQ0MuICBOb3RlIHRo
-YXQgZXZlbiBpZgp0aGlzIGlzIG5vdCBhbiBhY3R1YWwgZGFuZ2VyLCBhIGZhbHNlIHBvc2l0aXZl
-IGNhbiBjYXVzZSBGVEJGUyBpbiBhCmhpZ2ggc2VjdXJpdHkgZW52aXJvbm1lbnQuCgpvcGVuLmM6
-IEluIGZ1bmN0aW9uIOKAmGZrX29wZW7igJk6Cm9wZW4uYzoyMjI6Mjg6IHdhcm5pbmc6IOKAmCVs
-ZOKAmSBkaXJlY3RpdmUgd3JpdGluZyBiZXR3ZWVuIDEgYW5kIDExIGJ5dGVzIGludG8gYSByZWdp
-b24gb2Ygc2l6ZSA1IFstV2Zvcm1hdC1vdmVyZmxvdz1dCiAgKHZvaWQpIHNwcmludGYobmJ1Ziwi
-Zm9ydC4lbGQiLChsb25nKW4pOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+Cm9wZW4u
-YzoyMjI6MjI6IG5vdGU6IGRpcmVjdGl2ZSBhcmd1bWVudCBpbiB0aGUgcmFuZ2UgWy0yMTQ3NDgz
-NjQ4LCAyMTQ3NDgzNjQ3XQogICh2b2lkKSBzcHJpbnRmKG5idWYsImZvcnQuJWxkIiwobG9uZylu
-KTsKICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn4Kb3Blbi5jOjIyMjoyOiBub3RlOiDi
-gJhzcHJpbnRm4oCZIG91dHB1dCBiZXR3ZWVuIDcgYW5kIDE3IGJ5dGVzIGludG8gYSBkZXN0aW5h
-dGlvbiBvZiBzaXplIDEwCiAgKHZvaWQpIHNwcmludGYobmJ1ZiwiZm9ydC4lbGQiLChsb25nKW4p
-OwogIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgo=
+Squash potential buffer overflow noticed by GCC.  Note that even if
+this is not an actual danger, a false positive can cause FTBFS in a
+high security environment.
+
+open.c: In function ‘fk_open’:
+open.c:222:28: warning: ‘%ld’ directive writing between 1 and 11 bytes into a region of size 5 [-Wformat-overflow=]
+  (void) sprintf(nbuf,"fort.%ld",(long)n);
+                            ^~~
+open.c:222:22: note: directive argument in the range [-2147483648, 2147483647]
+  (void) sprintf(nbuf,"fort.%ld",(long)n);
+                      ^~~~~~~~~~
+open.c:222:2: note: ‘sprintf’ output between 7 and 17 bytes into a destination of size 10
+  (void) sprintf(nbuf,"fort.%ld",(long)n);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
  open.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
