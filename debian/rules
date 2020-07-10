@@ -11,7 +11,9 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=-bindnow
 # prefix-dev=debian/libf2c2-dev
 # prefix=debian/libf2c2
 
-DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
+include /usr/share/dpkg/architecture.mk
+-include /usr/share/dpkg/buildtools.mk
+LD ?= ld
 
 dir=$(package)-$(version)
 file=$(package)_$(version)-$(debian)
@@ -30,16 +32,18 @@ else
    GCCOPT=$(GCCOP1)
 endif
 
+MAKE_LIB=dh_auto_build --buildsystem=makefile -- -f ./debian/make_lib 'LD=$(LD)'
+
 override_dh_auto_build:
 	if [ $(DEB_HOST_ARCH) = "i386" ] ;\
            then echo "Building for i386" ;\
         fi
 
 ## These take gcc options from GCCOPT
-	$(MAKE) -f ./debian/make_lib INTSIZE=f2c GCCOPT="$(GCCOPT)"
+	$(MAKE_LIB) INTSIZE=f2c GCCOPT="$(GCCOPT)"
 ## Make sure everything rebuilt for -I2 lib
-	$(MAKE) -f ./debian/make_lib clean
-	$(MAKE) -f ./debian/make_lib INTSIZE=f2c_i2 GCCOPT="$(GCCOPT)"
+	$(MAKE_LIB) clean
+	$(MAKE_LIB) INTSIZE=f2c_i2 GCCOPT="$(GCCOPT)"
 
 	ln -s libf2c.so.$(flibver) libf2c.so.$(flibmajorver)
 	ln -s libf2c_i2.so.$(flibver) libf2c_i2.so.$(flibmajorver)
