@@ -21,8 +21,9 @@ libf2c2 (20140711-1) unstable; urgency=medium
   * Patches to use u?int*_t and size_t (closes: #748989, #800040)
   * Take multi-arch hinter's hints (closes: #964373)
   * Ditch dh-exec in favour of dh13 facilities
+  * Rules-Requires-Root: no
 
- -- Barak A. Pearlmutter <bap@debian.org>  Fri, 10 Jul 2020 23:57:30 +0100
+ -- Barak A. Pearlmutter <bap@debian.org>  Sat, 11 Jul 2020 00:07:57 +0100
 
 libf2c2 (20130926-3) unstable; urgency=medium
 
