@@ -1,0 +1,20 @@
+Index: libf2c2-20130926/makefile.u
+===================================================================
+--- libf2c2-20130926.orig/makefile.u
++++ libf2c2-20130926/makefile.u
+@@ -14,13 +14,14 @@
+ 
+ .SUFFIXES: .c .o
+ CC = cc
++LD ?= ld
+ SHELL = /bin/sh
+ CFLAGS = -O
+ 
+ # compile, then strip unnecessary symbols
+ .c.o:
+ 	$(CC) -c -DSkip_f2c_Undefs $(CFLAGS) $*.c
+-	ld -r -x -o $*.xxx $*.o
++	$(LD) -r -x -o $*.xxx $*.o
+ 	mv $*.xxx $*.o
+ ## Under Solaris (and other systems that do not understand ld -x),
+ ## omit -x in the ld line above.

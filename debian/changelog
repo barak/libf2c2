@@ -1,3 +1,14 @@
+libf2c2 (20130926-3.1) UNRELEASED; urgency=medium
+
+  * Non-maintainer upload.
+  * Fix FTCBFS: (Closes: #-1)
+    + Let dh_auto_build pass cross tools to make.
+    + Make debian/make_lib use the passed cross compiler.
+    + Pass a cross ld from dpkg's buildtools.mk to make.
+    + cross.patch: Make ld substitutable in makefile.u.
+
+ -- Helmut Grohne <helmut.grohne@intenta.de>  Mon, 06 Jul 2020 11:12:17 +0200
+
 libf2c2 (20130926-3) unstable; urgency=medium
 
   * Team upload.
