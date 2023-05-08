@@ -2,7 +2,7 @@ version=4
 
 # Unfortunately it is not easy to determine the version
 # number from upstream.  The f2c version is contained in a source code
-# file src/version.c in http://www.netlib.org/f2c/index.html
+# file src/version.c in http://netlib.org/f2c/index.html
 # see f2c/debian/watch for scripting details.
 # Here we use the timestamp on the tarball when manually downloaded:
-# wget2 https://www.netlib.org/f2c/libf2c.zip
+# wget2 https://netlib.org/f2c/libf2c.zip
