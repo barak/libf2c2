@@ -2,8 +2,9 @@ libf2c2 (20140711-2) UNRELEASED; urgency=medium
 
   * Update standards version to 4.6.2, no changes needed.
   * Permanent URL redirect.
+  * Remove unused subst variable.
 
- -- Barak A. Pearlmutter <bap@debian.org>  Mon, 08 May 2023 11:55:44 +0100
+ -- Barak A. Pearlmutter <bap@debian.org>  Mon, 08 May 2023 11:57:46 +0100
 
 libf2c2 (20140711-1) unstable; urgency=medium
 

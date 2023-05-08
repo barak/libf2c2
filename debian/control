@@ -28,7 +28,6 @@ Multi-Arch: same
 Section: libdevel
 Depends: libf2c2 (= ${binary:Version}),
          libc6-dev,
-         ${shlibs:Depends},
          ${misc:Depends}
 Description: Development libraries for use with f2c
  These are the necessary static libraries and header
