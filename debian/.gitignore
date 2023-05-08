@@ -1,6 +1,7 @@
 /*.debhelper
 /*.debhelper.log
 /*.substvars
+/debhelper-build-stamp
 /files
 /libf2c2-dev/
 /libf2c2/
