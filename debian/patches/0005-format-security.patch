@@ -9,18 +9,18 @@ Test breaks format security and should be fulfilled on Linux anyway.
  1 file changed, 2 insertions(+)
 
 diff --git a/arithchk.c b/arithchk.c
-index 6a3c2a5..c228d05 100644
+index a5fb746..074e468 100644
 --- a/arithchk.c
 +++ b/arithchk.c
-@@ -124,6 +124,7 @@ ccheck(void)
- 	long Cray1;
+@@ -138,6 +138,7 @@ ccheck(int ac, char **av)
  
  	/* Cray1 = 4617762693716115456 -- without overflow on non-Crays */
+ 	/* The next three tests should always be true. */
 +/* Skip useless test
- 	Cray1 = printf(emptyfmt) < 0 ? 0 : 4617762;
- 	if (printf(emptyfmt, Cray1) >= 0)
+ 	Cray1 = ac >= -2 ? 4617762 : 0;
+ 	if (ac >= -1)
  		Cray1 = 1000000*Cray1 + 693716;
-@@ -132,6 +133,7 @@ ccheck(void)
+@@ -146,6 +147,7 @@ ccheck(int ac, char **av)
  	u.d = 1e13;
  	if (u.L == Cray1)
  		return &CRAY;

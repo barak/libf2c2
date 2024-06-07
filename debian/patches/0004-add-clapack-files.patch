@@ -90,7 +90,7 @@ index 0000000..c7b7680
 +}
 +#endif
 diff --git a/makefile.u b/makefile.u
-index 0784eec..f78ff4b 100644
+index e941ab1..851b13e 100644
 --- a/makefile.u
 +++ b/makefile.u
 @@ -43,6 +43,7 @@ DBL =	d_abs.o d_acos.o d_asin.o d_atan.o d_atn2.o\
@@ -101,7 +101,7 @@ index 0784eec..f78ff4b 100644
  	lbitbits.o lbitshft.o
  HALF =	h_abs.o h_dim.o h_dnnt.o h_indx.o h_len.o h_mod.o h_nint.o h_sign.o
  CMP =	l_ge.o l_gt.o l_le.o l_lt.o hl_ge.o hl_gt.o hl_le.o hl_lt.o
-@@ -202,6 +203,7 @@ check:
+@@ -205,6 +206,7 @@ check:
  	getarg_.c getenv_.c h_abs.c h_dim.c h_dnnt.c h_indx.c h_len.c \
  	h_mod.c h_nint.c h_sign.c hl_ge.c hl_gt.c hl_le.c hl_lt.c \
  	i77vers.c i_abs.c i_dim.c i_dnnt.c i_indx.c i_len.c i_mod.c \

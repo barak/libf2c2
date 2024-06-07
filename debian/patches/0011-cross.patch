@@ -9,7 +9,7 @@ to be made substitutable for cross compilation.
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/makefile.u b/makefile.u
-index f78ff4b..808bf8b 100644
+index 851b13e..0121690 100644
 --- a/makefile.u
 +++ b/makefile.u
 @@ -14,13 +14,14 @@

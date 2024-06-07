@@ -5,6 +5,7 @@ libf2c2 (20240504-1) unstable; urgency=medium
   * Track changes to lintian output format.
   * New upstream version
   * Update standards version to 4.7.0, no changes needed.
+  * Forward port patches.
 
  -- Barak A. Pearlmutter <bap@debian.org>  Fri, 07 Jun 2024 16:59:10 +0100
 

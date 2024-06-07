@@ -7,7 +7,7 @@ Subject: makefile simplify two libs
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/makefile.u b/makefile.u
-index efe7dc0..0784eec 100644
+index a271e5c..e941ab1 100644
 --- a/makefile.u
 +++ b/makefile.u
 @@ -69,7 +69,7 @@ TIME =	dtime_.o etime_.o
@@ -19,7 +19,7 @@ index efe7dc0..0784eec 100644
  
  libf2c.a: $(OFILES)
  	ar r libf2c.a $?
-@@ -126,7 +126,7 @@ install: libf2c.a
+@@ -129,7 +129,7 @@ install: libf2c.a
  	-ranlib $(LIBDIR)/libf2c.a
  
  clean:
